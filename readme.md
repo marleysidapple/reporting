@@ -1,8 +1,8 @@
 1. Steps to run the project and initialize the database
 a. Firstly, unzip the project folder and you will see Source folder.
 b. navigate into the Source folder from command line or terminal and run following commands.
-   i.  composer install 
-   ii. php artisan key:generate
+   i.  composer install  (this will fetch all the related dependencie)
+   ii. php artisan key:generate (this will generate app key)
 c. inside Source folder there is .env.example file. Rename that file to .env and edit the database credential parameters  for production database and testing database. For e.g
 
 DB_CONNECTION=mysql
