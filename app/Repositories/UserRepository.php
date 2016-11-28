@@ -54,6 +54,16 @@ class UserRepository
 
 
     /*
+    * deleting patient
+    *
+    */
+    public function deletePatient($id)
+    {
+        return User::find($id)->delete();
+    }
+
+
+    /*
     * list operators
     *
     */

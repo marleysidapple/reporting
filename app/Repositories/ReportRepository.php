@@ -41,4 +41,24 @@ class ReportRepository
     {
     	return Report::where('id', $id)->update($data);
     }
+
+
+    /*
+    * get selected report
+    *
+    */
+    public function selectedReport($id)
+    {
+        return Report::where('patient_id', $id)->get();
+    }
+
+
+    /*
+    * deleting report
+    *
+    */
+    public function deleteReport($id)
+    {
+        return Report::find($id)->delete();
+    }
 }

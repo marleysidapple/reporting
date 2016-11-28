@@ -7,7 +7,7 @@
         </div>
         <div class="pull-left info">
           <p>{{Auth::user()->name}}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <a href="#"><i class="fa fa-circle text-success"></i>{{Auth::user()->roles->first()->name}}</a>
         </div>
       </div>
       <!-- search form -->
@@ -24,10 +24,10 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
-        <li><a href=""><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li  {{ (Request::is('*home') ? 'class=active' : '') }}><a href="{{url('home')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         
         @if(Auth::user()->can(['list-operator', 'add-operator', 'edit-operator', 'delete-operator']))
-        <li class="treeview">
+        <li class="treeview {{ (Request::is('operator/*') ? 'active' : '') }}">
           <a href="#">
             <i class="fa fa-pie-chart"></i>
             <span>Operators</span>
@@ -44,7 +44,7 @@
 
 
          @if(Auth::user()->can(['list-patient', 'add-patient', 'edit-patient', 'delete-patient']))
-        <li class="treeview">
+        <li class="treeview {{ (Request::is('patient/*') ? 'active' : '') }}">
           <a href="#">
             <i class="fa fa-users"></i>
             <span>Patients</span>
@@ -60,7 +60,7 @@
         @endif
        
 
-        <li class="treeview">
+        <li class="treeview {{ (Request::is('report/*') ? 'active' : '') }}">
           <a href="#">
             <i class="fa fa-pie-chart"></i>
             <span>Reports</span>

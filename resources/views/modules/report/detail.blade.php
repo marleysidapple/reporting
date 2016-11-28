@@ -12,6 +12,7 @@
     <!-- Main content -->
     <section class="invoice">
       <!-- title row -->
+      @include('shared.alert')
       <div class="row">
         <div class="col-xs-12">
           <h2 class="page-header">
@@ -82,10 +83,12 @@
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-          <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-envelope"></i>&nbsp;Mail Report</a>
+          <a href="{{url('report/mail/'.$report->id)}}" class="btn btn-default"><i class="fa fa-envelope"></i>&nbsp;Mail Report</a>
+           @if(Auth::user()->can(['edit-report']))
            <a href="{{url('report/'.$report->id .'/edit')}}" class="btn btn-success pull-right" style="margin-right: 5px;">
             <i class="fa fa-pencil"></i> Edit Report
           </a>
+          @endif
           <a href="{{url('report/download/'.$report->id)}}" class="btn btn-primary pull-right" style="margin-right: 5px;">
             <i class="fa fa-download"></i> Export To PDF
           </a>

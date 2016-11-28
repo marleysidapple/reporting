@@ -24,12 +24,14 @@ class PatientRequest extends Request
     public function rules()
     {
         return [
-            'name'  => 'required',
-            'email' => 'required|email|unique:users,email',
-            'address' => 'required',
-            'phone' => 'required',
-            'gender' => 'required',
-            'age'   => 'required|digits_between:2,100'
+            'name'             => 'required',
+            'email'            => 'required|email|unique:users,email',
+            'address'          => 'required',
+            'phone'            => 'required',
+            'gender'           => 'required',
+            'age'              => 'required|digits_between:2,100',
+            'password'         => 'required|min:6',
+            'confirm_password' => 'required|same:password',
         ];
     }
 }

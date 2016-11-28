@@ -27,12 +27,14 @@ class EditPatientRequest extends Request
         $patient = User::find($this->route('id'));
 
         return [
-            'name'    => 'required',
-            'email'   => 'required|email|unique:users,email,' . $patient->id,
-            'address' => 'required',
-            'phone'   => 'required',
-            'gender'  => 'required',
-            'age'     => 'required|digits_between:2,100',
+            'name'             => 'required',
+            'email'            => 'required|email|unique:users,email,' . $patient->id,
+            'address'          => 'required',
+            'phone'            => 'required',
+            'gender'           => 'required',
+            'age'              => 'required|digits_between:2,100',
+            'password'         => 'min:6',
+            'confirm_password' => 'required_with:password|same:password',
         ];
     }
 }

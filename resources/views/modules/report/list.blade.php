@@ -16,6 +16,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+            @include('shared.alert')
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -31,13 +32,21 @@
                   @foreach($report as $key => $val)
                   <tr>
                    <td>{{$key+1}}</td>
-                   <td>{{$val->patient_id}}</td>
+                   <td>{{$val->patient->name}}</td>
                    <td>{{$val->mrn}}</td>
                    <td>{{$val->clinical_history}}</td>
                    <td>{{$val->created_at}}</td>
                    <td>
-                   <a href="{{url('report/'.$val->id .'/detail')}}" class="btn btn-success btn-sm">View</a>
-                   <a href="{{url('report/'.$val->id .'/edit')}}" class="btn btn-primary btn-sm">Edit</a></td>
+                   <a href="{{url('report/'.$val->id .'/detail')}}" class="btn btn-default btn-sm">View</a>
+                    <a href="{{url('report/mail/'.$val->id)}}" class="btn btn-default btn-sm">Email</a>
+                    <a href="{{url('report/download/'.$val->id)}}" class="btn btn-default btn-sm">Export</a>
+                   @if(Auth::user()->can(['edit-report']))
+                      <a href="{{url('report/'.$val->id .'/edit')}}" class="btn btn-default btn-sm">Edit</a>
+                   @endif
+                    @if(Auth::user()->can(['delete-report']))
+                      <a href="{{url('report/delete/'.$val->id)}}" class="btn btn-default btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                    @endif
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

@@ -29,7 +29,7 @@ class UpdateOperatorRequest extends Request
             'name'             => 'required',
             'email'            => 'required|email|unique:users,email,' . $op->id,
             'password'         => 'min:6',
-            'confirm_password' => 'same:password',
+            'confirm_password' => 'required_with:password|same:password',
         ];
     }
 }

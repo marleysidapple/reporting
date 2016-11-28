@@ -8,7 +8,9 @@ use App\Http\Requests\PatientRequest;
 use App\Http\Requests\UpdateOperatorRequest;
 use App\Repositories\UserRepository;
 use App\Role;
+use App\User;
 use Auth;
+use Mail;
 
 class OperatorController extends Controller
 {
@@ -18,6 +20,7 @@ class OperatorController extends Controller
     public function __construct(UserRepository $users)
     {
         $this->users = $users;
+        $this->middleware('role:Operator', ['except' => ['home', 'logout']]);
     }
 
     public function home()
@@ -57,7 +60,7 @@ class OperatorController extends Controller
             'phone'    => $request->phone,
             'gender'   => $request->gender,
             'age'      => $request->age,
-            'password' => \bcrypt('password'),
+            'password' => \bcrypt($request->password),
         );
 
         try {
@@ -65,12 +68,41 @@ class OperatorController extends Controller
             //assign patient role to user
             $patient = Role::where('name', 'patient')->first();
             $user->attachRole($patient);
+            $this->notifyPatient($request);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Patient couldnot be added at this moment');
         }
-        return redirect()->back()->with('success', 'Patient added successfully');
+        return redirect()->back()->with('success', 'Patient added successfully and notification has been sent to patient in respective email');
 
     }
+
+    /*
+     * send a notification email to the user regarding the user creating in the system
+     *
+     */
+    protected function notifyPatient($request)
+    {
+        $data = array('password' => $request->password, 'email' => $request->email, 'name' => $request->name);
+
+        Mail::send('email.notify', $data, function ($message) use ($request) {
+            $message->to($request->email)->subject('Patient Created');
+        });
+    }
+
+
+
+
+    /*
+    * get the patient detail
+    * render view
+    */
+    public function viewPatient($id)
+    {
+        $patient = $this->users->findPatient($id);
+        return view('modules.patient.detail', compact('patient'));
+    }
+
+
 
     /*
      * editing patient
@@ -89,6 +121,7 @@ class OperatorController extends Controller
      */
     public function updatePatient(EditPatientRequest $request, $id)
     {
+
         $data = array(
             'name'    => $request->name,
             'email'   => $request->email,
@@ -98,6 +131,10 @@ class OperatorController extends Controller
             'age'     => $request->age,
         );
 
+        if ($request->password != "") {
+            $data['password'] = \bcrypt($request->password);
+        }
+
         try {
             $user = $this->users->updatePatients($id, $data);
         } catch (\Exception $e) {
@@ -106,6 +143,19 @@ class OperatorController extends Controller
         return redirect()->back()->with('success', 'Patient updated successfully');
 
     }
+
+
+
+    /*
+    * deleting patient
+    * destroy from db
+    */
+    public function deletePatient($id)
+    {
+        $user = $this->users->deletePatient($id);
+        return redirect()->to('patient/list')->with('success', 'Patient deleted successfully');
+    }
+
 
     /*
      * list all operator
@@ -166,17 +216,14 @@ class OperatorController extends Controller
      */
     public function updateOperator(UpdateOperatorRequest $request, $id)
     {
+
+        $data = array(
+            'name'  => $request->name,
+            'email' => $request->email,
+        );
+
         if ($request->password != "") {
-            $data = array(
-                'name'     => $request->name,
-                'email'    => $request->email,
-                'password' => \bcrypt($request->password),
-            );
-        } else {
-            $data = array(
-                'name'  => $request->name,
-                'email' => $request->email,
-            );
+            $data['password'] = \bcrypt($request->password);
         }
 
         try {
@@ -188,6 +235,22 @@ class OperatorController extends Controller
 
     }
 
+    /*
+     * displaying operator details
+     * render view
+     */
+    public function viewOperator($id)
+    {
+        $operator = $this->users->findOperator($id);
+        return view('modules.operator.detail', compact('operator'));
+    }
+
+
+
+    /*
+    * logout function
+    *
+    */
     public function logout()
     {
         Auth::logout();

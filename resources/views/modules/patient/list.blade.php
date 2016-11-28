@@ -10,6 +10,7 @@
 
     <!-- Main content -->
     <section class="content">
+    @include('shared.alert')
        <div class="box">
             <div class="box-header">
               <h3 class="box-title">Patients</h3>
@@ -35,7 +36,11 @@
                    <td>{{$val->email}}</td>
                    <td>{{$val->phone}}</td>
                    <td>{{$val->age}}</td>
-                   <td><a href="{{url('patient/'.$val->id .'/edit')}}" class="btn btn-primary btn-sm">Edit</a></td>
+                   <td>
+                    <a href="{{url('patient/'.$val->id .'/detail')}}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{{url('patient/'.$val->id .'/edit')}}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{{url('patient/'.$val->id .'/delete')}}" onclick="return confirm('Are you sure?');" class="btn btn-primary btn-sm">Delete</a>
+                    </td>
                   </tr>
                   @endforeach
                 </tbody>

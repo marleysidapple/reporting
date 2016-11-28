@@ -64,6 +64,18 @@
                   @if ($errors->has('age'))<span class="help-block">{{ $errors->first('age') }} </span>@endif
                 </div>
 
+                 <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password" value="{{old('password')}}">
+                  @if ($errors->has('password'))<span class="help-block">{{ $errors->first('password') }} </span>@endif
+                </div>
+
+                 <div class="form-group {{ $errors->has('confirm_password') ? ' has-error' : '' }}">
+                  <label for="exampleInputconfirm_password1">Confirm Password</label>
+                  <input type="password" name="confirm_password" class="form-control" id="exampleInputconfirm_password1" placeholder="Retype Password" value="{{old('confirm_password')}}">
+                  @if ($errors->has('confirm_password'))<span class="help-block">{{ $errors->first('confirm_password') }} </span>@endif
+                </div>
+
                
               </div>
               <!-- /.box-body -->

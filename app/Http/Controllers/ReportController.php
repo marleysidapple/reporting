@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveReportRequest;
 use App\Repositories\ReportRepository;
 use App\Repositories\UserRepository;
+use Mail;
 use PDF;
 
 class ReportController extends Controller
@@ -17,11 +18,13 @@ class ReportController extends Controller
     {
         $this->reports = $reports;
         $this->users   = $users;
+        $this->middleware('role:Operator', ['except' => ['listAll', 'viewReport', 'downloadPdf', 'emailReport']]);
     }
 
     public function listAll()
     {
-        $report = $this->reports->allReport();
+        $userRole = \Auth::user()->roles->first()->name;
+        $report   = ($userRole == 'Operator') ? $this->reports->allReport() : $this->reports->selectedReport(\Auth::user()->id);
         return view('modules.report.list', compact('report'));
     }
 
@@ -102,14 +105,45 @@ class ReportController extends Controller
     }
 
     /*
+     * deleting report
+     * delete from db
+     */
+    public function deleteReport($id)
+    {
+        $report = $this->reports->deleteReport($id);
+        return redirect()->to('report/list')->with('success', 'Report deleted successfully');
+    }
+
+    /*
      * download the pdf
      * serve pdf file
      */
     public function downloadPdf($id)
-    {	
-    	$report = $this->reports->reportDetail($id);
-        $pdf = PDF::loadView('modules.report.pdf', compact('report'));
+    {
+
+        $report = $this->reports->reportDetail($id);
+        $pdf    = PDF::loadView('modules.report.pdf', compact('report'));
         return $pdf->download('report.pdf');
 
+    }
+
+    /*
+     * email report
+     * mail to patient
+     */
+    public function emailReport($id)
+    {
+        $data   = array();
+        $report = $this->reports->reportDetail($id);
+        if (!is_null($report)) {
+            $pdf = PDF::loadView('modules.report.pdf', compact('report'));
+            Mail::send('email.report', $data, function ($message) use ($pdf) {
+                $message->to('bsiddhartha25@gmail.com')->subject('test email');
+                $message->attachData($pdf->output(), 'labreport.pdf');
+            });
+            return redirect()->back()->with('success', 'Report emailed successfully');
+        } else {
+            return redirect()->to('report/list')->with('error', 'Record not found');
+        }
     }
 }

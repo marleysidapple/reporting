@@ -17,7 +17,6 @@
  */
 Route::get('/', 'AuthController@login');
 
-
 Route::get('login', 'AuthController@login');
 
 /*
@@ -28,152 +27,171 @@ Route::post('login', 'AuthController@validateLogin');
 
 Route::group(['middleware' => 'auth'], function () {
 
-	/*
-	* protected home page
-	* get route
-	*/
+    /*
+     * protected home page
+     * get route
+     */
     Route::get('home', 'OperatorController@home');
 
     /*
-    * logging out user
-    * get route
-    */
+     * logging out user
+     * get route
+     */
     Route::get('logout', 'OperatorController@logout');
 
+    /*
+     *------------------------------------------------------------------------------------------------
+     * PATIENT ROUTES
+     *------------------------------------------------------------------------------------------------
+     */
 
     /*
-    *------------------------------------------------------------------------------------------------
-    * PATIENT ROUTES
-    *------------------------------------------------------------------------------------------------
-    */
-
-    /*
-    * list of patient
-    * get route
-    */
+     * list of patient
+     * get route
+     */
     Route::get('patient/list', 'OperatorController@listPatient');
 
     /*
-    * adding new patient
-    * get route
-    */
+     * adding new patient
+     * get route
+     */
     Route::get('patient/add', 'OperatorController@addPatient');
 
-
     /*
-    * saving new patient
-    * post route
-    */
+     * saving new patient
+     * post route
+     */
     Route::post('patient/add', 'OperatorController@savePatient');
 
-
-    /* 
-    * editing patient
-    * get route
-    */
+    /*
+     * editing patient
+     * get route
+     */
     Route::get('patient/{id}/edit', 'OperatorController@editPatient');
 
-
     /*
-    * editing patient
-    * post route
-    */
+     * editing patient
+     * post route
+     */
     Route::post('patient/edit/{id}', 'OperatorController@updatePatient');
 
 
     /*
-    *-------------------------------------------------------------------------------------------------------
-    * report routes
-    *-------------------------------------------------------------------------------------------------------
-    */
-
-    /*
-    * list of all reports
+    * display patient detail
     * get route
     */
+    Route::get('patient/{id}/detail', 'OperatorController@viewPatient');
+
+
+    /*
+    * deleting the patient
+    * get route
+    */
+    Route::get('patient/{id}/delete', 'OperatorController@deletePatient');
+
+    /*
+     *-------------------------------------------------------------------------------------------------------
+     * report routes
+     *-------------------------------------------------------------------------------------------------------
+     */
+
+    /*
+     * list of all reports
+     * get route
+     */
     Route::get('report/list', 'ReportController@listAll');
 
-
     /*
-    * adding report
-    * get route
-    */
+     * adding report
+     * get route
+     */
     Route::get('report/add', 'ReportController@addReport');
 
-
     /*
-    * adding report
-    * post route
-    */
+     * adding report
+     * post route
+     */
     Route::post('report/add', 'ReportController@saveReport');
 
-
     /*
-    * display report detail
-    * get route
-    */
+     * display report detail
+     * get route
+     */
     Route::get('report/{id}/detail', 'ReportController@viewReport');
 
-
     /*
-    * editing report
-    * get route
-    */
+     * editing report
+     * get route
+     */
     Route::get('report/{id}/edit', 'ReportController@editReport');
 
     /*
-    * updating report
-    * post route
-    */
+     * updating report
+     * post route
+     */
     Route::post('report/edit/{id}', 'ReportController@updateReport');
 
     /*
-    * download pdf
-    * get route
-    */
+     * download pdf
+     * get route
+     */
     Route::get('report/download/{id}', 'ReportController@downloadPdf');
 
+    /*
+     * send report in an email
+     * get route
+     */
+    Route::get('report/mail/{id}', 'ReportController@emailReport');
+
 
 
     /*
-    *------------------------------------------------------------------------------------------------
-    * operator routes
-    *------------------------------------------------------------------------------------------------
-    */
-
-    /*
-    * list of operator
+    * deleting report
     * get route
     */
+    Route::get('report/delete/{id}', 'ReportController@deleteReport');
+
+    /*
+     *------------------------------------------------------------------------------------------------
+     * operator routes
+     *------------------------------------------------------------------------------------------------
+     */
+
+    /*
+     * list of operator
+     * get route
+     */
     Route::get('operator/list', 'OperatorController@listOperator');
 
-
     /*
-    * adding operator
-    * get route
-    */
+     * adding operator
+     * get route
+     */
     Route::get('operator/add', 'OperatorController@addOperator');
 
-
     /*
-    * save operator
-    * post route
-    */
+     * save operator
+     * post route
+     */
     Route::post('operator/add', 'OperatorController@saveOperator');
 
-
     /*
-    * editing operator
-    * get route
-    */
+     * editing operator
+     * get route
+     */
     Route::get('operator/{id}/edit', 'OperatorController@editOperator');
 
-
     /*
-    * updating operator
-    * post route
-    */
+     * updating operator
+     * post route
+     */
     Route::post('operator/edit/{id}', 'OperatorController@updateOperator');
 
+
+    /*
+     * displaying operator detail
+     * get route
+     */
+    Route::get('operator/{id}/view', 'OperatorController@viewOperator');
 
 });
