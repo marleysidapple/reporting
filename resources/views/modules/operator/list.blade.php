@@ -31,7 +31,10 @@
                    <td>{{$key+1}}</td>
                    <td>{{$val->name}}</td>
                    <td>{{$val->email}}</td>
-                   <td><a href="{{url('operator/'.$val->id .'/edit')}}" class="btn btn-primary btn-sm">Edit</a> <a href="{{url('operator/'.$val->id .'/view')}}" class="btn btn-primary btn-sm">View</a></td>
+                   <td>
+                    <a href="{{url('operator/'.$val->id .'/edit')}}" class="btn btn-primary btn-sm">Edit</a> 
+                    <a href="{{url('operator/'.$val->id .'/view')}}" class="btn btn-primary btn-sm">View</a>
+                   </td>
 
                   </tr>
                   @endforeach
