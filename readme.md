@@ -1,27 +1,35 @@
-# Laravel PHP Framework
+1. Steps tro create and initialize the database
+   a. First create a new mysql database in phpmyadmin.
+   b. In project source, rename .env.example to .env and edit DB_DATABASE, DB_USER AND DB_PASSWORD parameters with created database name, username and password.
+   c. Navigate to the project source and from inside the source, run below commands. 
+   d. run "php artisan config:cache" and "php artisan config:clear".
+   d. run "php artisan migrate" from commannd line.
+   e. run "php artisan db:seed" from command line
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+2. Step to run the project
+  a. go inside the project source and run command "composer install"
+  b. you can either place the project inside the htdocs folder and run accordingly like (http://localhost/{projectname}/public).
+  c. OR, from inside the source folder, run "php artisan serve" command in command line and it will start application is something like http://localhost:8000.
+  d. login parameters are:
+    email: operator@mail.com
+    password: password
+  e. For running unit testing, specify the testing database parameters in .env file. Edit the following parameters (DB_DATABASE_TEST, DB_USERNAME_TEST, DB_PASSWORD_TEST).
+  f. then run following command 'php artisan migrate --database=testing', 'php artisan db:seed --database=testing'. and finally run phpunit to run unit test.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-## Official Documentation
+3. Minimum pre-requisities 
+   a. Composer
+   b. php version greater than 5.5.9
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-## Contributing
+4. Assumptions.
+  a. Operator is not provided with the delete facility. 
+  b. Once the patient is created, login credentials will be mailed to his/her email.
+  c. Report will be mailed in the form of attachment as an pdf to the patient if he/she wish to mail it. 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+5. Feedbacks
+  a. it would be better to send passcode in email rather than text message.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
