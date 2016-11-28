@@ -59,7 +59,7 @@ class ReportController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Report couldnot be added at this moment');
         }
-        return redirect()->back()->with('success', 'Report addded successfully');
+        return redirect()->back()->with('success', 'Report added successfully');
     }
 
     /*
