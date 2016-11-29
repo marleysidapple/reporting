@@ -135,10 +135,11 @@ class ReportController extends Controller
     {
         $data   = array();
         $report = $this->reports->reportDetail($id);
+
         if (!is_null($report)) {
             $pdf = PDF::loadView('modules.report.pdf', compact('report'));
-            Mail::send('email.report', $data, function ($message) use ($pdf) {
-                $message->to('bsiddhartha25@gmail.com')->subject('test email');
+            Mail::send('email.report', $data, function ($message) use ($pdf, $report) {
+                $message->to($report->patient->email)->subject('Lab Report');
                 $message->attachData($pdf->output(), 'labreport.pdf');
             });
             return redirect()->back()->with('success', 'Report emailed successfully');
